@@ -5,15 +5,15 @@ use structopt::StructOpt;
 #[derive(StructOpt, Debug)]
 struct Opt {
     #[structopt(short="p")]
-    http_port: u16,
+    tcp_port: u16,
     #[structopt(short="u")]
     unix_server_addr: String,
 }
 
-// proxy an incoming http stream to a unix stream
+// proxy an incoming tcp stream to a unix stream
 fn main() -> std::io::Result<()> {
     let opt = Opt::from_args();
-    let listener = TcpListener::bind(("127.0.0.1", opt.http_port))?;
+    let listener = TcpListener::bind(("127.0.0.1", opt.tcp_port))?;
 
     for tcp_stream in listener.incoming() {
         println!("incoming connection");
